@@ -196,7 +196,7 @@ def gerar_embedding_unico(texto: str) -> List[float]:
 | Cliente | `PersistentClient` |
 | Path | `./chroma_rh` |
 | Coleção | `rh_documentos` |
-| Similaridade | Coseno (`hnsw:space: cosine`) |
+| Similaridade | Cosseno (`hnsw:space: cosine`) |
 
 ### Fluxo de Inicialização
 
