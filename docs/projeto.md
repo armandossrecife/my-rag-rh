@@ -504,7 +504,7 @@ rag-rh/
 
 ## ✅ Conclusão
 
-Este sistema demonstra uma implementação **produção-ready** de RAG sem dependências pesadas como LangChain. As principais vantagens são:
+Este sistema demonstra uma implementação **protótipo** de RAG sem dependências pesadas como LangChain. As principais vantagens são:
 
 1. **Controle total** sobre cada etapa do pipeline
 2. **Menos dependências** = menos vulnerabilidades
