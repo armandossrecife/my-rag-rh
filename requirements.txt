@@ -1,0 +1,17 @@
+openai
+langchain==0.3.25
+langchain-openai
+langchain-core>=0.3.58,<1.0.0
+faiss-cpu==1.13.0
+langchain-community==0.3.25
+pypdf==5.6.0
+python-dotenv
+sqlalchemy>=2.0.0
+langgraph
+numpy
+pdfplumber
+faiss-cpu
+chromadb
+rich
+streamlit
+langchain_chroma
