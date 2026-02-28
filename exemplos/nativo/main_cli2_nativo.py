@@ -47,17 +47,12 @@ LLM_MODEL = "gpt-4o-mini"
 # 3. LEITURA DOS DOCUMENTOS
 # =========================
 
-def carregar_documentos():
-    caminhos = [
-        "documentos/politica_ferias.pdf",
-        "documentos/politica_home_office.pdf",
-        "documentos/codigo_conduta.pdf"
-    ]
-
+def carregar_documentos(lista_documentos: List[str] = None) -> List[Dict]:
+    
     documentos = []
 
     with console.status("[bold green]Carregando documentos PDF..."):
-        for caminho in caminhos:
+        for caminho in lista_documentos:
             if not os.path.exists(caminho):
                 console.print(f"[yellow]AVISO:[/yellow] Arquivo não encontrado: {caminho}")
                 continue
@@ -178,7 +173,7 @@ def gerar_embedding_unico(texto: str) -> List[float]:
 # 7. VECTOR STORE
 # =========================
 
-def inicializar_vectorstore():
+def inicializar_vectorstore(lista_documentos: List[str]) -> chromadb.api.models.Collection.Collection:
     # Força recriação para garantir dados limpos
     if os.path.exists(PERSIST_DIRECTORY):
         console.print("[yellow]![/yellow] Banco existente detectado. Limpando para garantir integridade...")
@@ -187,7 +182,7 @@ def inicializar_vectorstore():
     chroma_client = chromadb.PersistentClient(path=PERSIST_DIRECTORY)
     
     console.print("[yellow]![/yellow] Criando novo banco vetorial...")
-    documentos = carregar_documentos()
+    documentos = carregar_documentos(lista_documentos)
     
     if not documentos:
         console.print("[bold red]ERRO:[/bold red] Nenhum documento carregado. Verifique a pasta 'documentos'.")
@@ -428,9 +423,15 @@ def imprimir_fontes(fontes: List[Dict]):
 def main():
     limpar_tela()
     imprimir_cabecalho()
-
+    
+    caminhos_documentos = [
+        "documentos/politica_ferias.pdf",
+        "documentos/politica_home_office.pdf",
+        "documentos/codigo_conduta.pdf"
+    ]
+    
     try:
-        collection = inicializar_vectorstore()
+        collection = inicializar_vectorstore(caminhos_documentos)
     except Exception as e:
         console.print(Panel(f"[bold red]ERRO CRÍTICO:[/bold red] {e}", border_style="red"))
         import traceback
