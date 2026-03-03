@@ -21,3 +21,7 @@ Sem usar o framework Langchain
 ```bash
 uv run exemplos/nativo/main_cli2_nativo.py
 ```
+
+## Detalhes do Projeto
+
+Disponível em [projeto.md](https://github.com/armandossrecife/my-rag-rh/blob/main/docs/projeto.md)
