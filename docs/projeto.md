@@ -4,7 +4,6 @@
 
 Este documento descreve a arquitetura técnica de um **Agente de RH baseado em RAG (Retrieval-Augmented Generation)** desenvolvido inteiramente com bibliotecas nativas Python, sem dependência do LangChain. O sistema permite consultas em documentos PDF de políticas internas de uma organização através de uma interface de terminal.
 
----
 
 ## 🏗️ Arquitetura do Sistema
 
@@ -22,7 +21,7 @@ Este documento descreve a arquitetura técnica de um **Agente de RH baseado em R
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
----
+
 
 ## 📦 1. Importações e Dependências
 
@@ -47,7 +46,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 **Justificativa:** A chave da API é carregada de um arquivo `.env` para não ser hardcoded no código, seguindo práticas de segurança.
 
----
+
 
 ## 📂 2. Leitura de Documentos (`carregar_documentos`)
 
@@ -91,7 +90,6 @@ def carregar_documentos():
 - Páginas com texto vazio são descartadas
 - Contagem total é exibida para validação
 
----
 
 ## ✂️ 3. Chunking (`gerar_chunks`)
 
@@ -129,7 +127,6 @@ Documento Original (3000 caracteres)
 └── Chunk 4 (1950-2750) + Metadados
 ```
 
----
 
 ## 🏷️ 4. Enriquecimento de Metadados (`enriquecer_chunks`)
 
@@ -150,7 +147,7 @@ Cada chunk recebe uma categoria baseada em palavras-chave:
 - **Debug:** Identificação rápida do tipo de conteúdo nas fontes
 - **Transparência:** Usuário sabe de onde vem a informação
 
----
+
 
 ## 🔢 5. Embeddings (`gerar_embeddings`)
 
@@ -185,7 +182,6 @@ def gerar_embedding_unico(texto: str) -> List[float]:
     # Para perguntas do usuário
 ```
 
----
 
 ## 🗄️ 6. Vector Store (`inicializar_vectorstore`)
 
@@ -229,7 +225,7 @@ chunk_id = f"chunk_{hashlib.md5(chunk['page_content'].encode()).hexdigest()[:16]
 
 **Justificativa:** Garante que chunks idênticos não sejam duplicados e permite upsert seguro.
 
----
+
 
 ## 🔍 7. Recuperação (`responder_pergunta` - Parte 1)
 
@@ -267,7 +263,6 @@ resultados = collection.query(
 - Filtra chunks com texto vazio
 - Preserva metadados associados
 
----
 
 ## 📊 8. Reranking (`rerank_documentos`)
 
@@ -324,8 +319,6 @@ with Progress(...) as progress:
     # Update a cada documento processado
 ```
 
----
-
 ## 🤖 9. Geração de Resposta (`responder_pergunta` - Parte 2)
 
 ### Construção do Contexto
@@ -365,8 +358,6 @@ return resposta, contexto_final
 # resposta: str (texto da resposta)
 # contexto_final: List[Dict] (fontes usadas)
 ```
-
----
 
 ## 🎨 10. Interface de Terminal (Rich)
 
@@ -408,7 +399,6 @@ return resposta, contexto_final
 ╰─────────────────────────────────────────────────────────────────╯
 ```
 
----
 
 ## 🔄 11. Loop Principal (`main`)
 
@@ -436,7 +426,7 @@ def main():
 | Erro crítico | Stack trace + exit(1) |
 | Input vazio | Ignora e pede nova pergunta |
 
----
+
 
 ## 📊 12. Métricas e Performance
 
@@ -459,7 +449,6 @@ def main():
 | Resposta final | ~1.500 | $0.0002 |
 | **Total por query** | - | **~$0.003** |
 
----
 
 ## 🔐 13. Considerações de Segurança
 
@@ -470,7 +459,6 @@ def main():
 | Persistência | Local (`./chroma_rh`) |
 | Logs | Sem dados de usuários armazenados |
 
----
 
 ## 🚀 14. Possíveis Melhorias Futuras
 
@@ -483,7 +471,6 @@ def main():
 | Dashboard web | Interface gráfica | Média |
 | Hybrid search (texto + vetorial) | Melhor recall | Média |
 
----
 
 ## 📁 15. Estrutura de Arquivos Recomendada
 
@@ -500,7 +487,6 @@ rag-rh/
     └── rh_documentos/
 ```
 
----
 
 ## ✅ Conclusão
 
